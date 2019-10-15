@@ -14,30 +14,24 @@ connection = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ser
 cursor = connection.cursor()
 
 # query info
-q1 = ['''
-    SELECT TOP 10 *
+brand_query = ['''
+    SELECT DISTINCT Brand
     FROM ProductsClean
-    WHERE ProductCategory = \'Electrical\'
+    WHERE ProductCategory = 'FluidPower'
+    ORDER BY Brand DESC
     ''']
-q2 = ['''
-    SELECT TOP 10 *
-    FROM ProductsClean
-    WHERE ProductCategory = \'PPE\'
-    ''']
-
-sql_queries = [ q1[0], q2[0] ]
-
-# print each row as list to console
-for query in sql_queries:
-    cursor.execute(query)
-    for row in cursor:
-        print(row)
+brand_array = []
 
 # print each row as delimitted record
-cursor.execute(q2[0]) # reset the cursor
+cursor.execute(brand_query[0]) # reset the cursor
 row = cursor.fetchone()
 while row:
     for i in row:
-        print('{} | '.format(i), end='')
+        print('{}'.format(i), end='')
+        brand_array.append(i)
+
     row = cursor.fetchone()
     print('')
+
+#for brand in brand_array:
+#    print(brand)
