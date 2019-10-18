@@ -1,7 +1,9 @@
 """
-odbc test
+odbc test - fetch brands from rdb
 """
 import pyodbc
+
+print('Fetching brands...')
 
 # connection info
 server = 'sql.wrangle.works'
@@ -25,13 +27,15 @@ brand_array = []
 # print each row as delimitted record
 cursor.execute(brand_query[0]) # reset the cursor
 row = cursor.fetchone()
+row_count = 0
 while row:
     for i in row:
         print('{}'.format(i), end='')
         brand_array.append(i)
+        row_count += 1
 
     row = cursor.fetchone()
     print('')
 
-#for brand in brand_array:
-#    print(brand)
+print('{} brands retrieved.'.format(row_count))
+print('Done.')
